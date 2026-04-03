@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Growth Goals - Domine a Sua Jornada</title>
+    <style>
+        :root {
+            --primary: #1e40af;
+            --accent: #60a5fa;
+            --coin-gold: #ffd700;
+            --glass: rgba(255, 255, 255, 0.9);
+            --bg: linear-gradient(180deg, #f0f7ff 0%, #c9dfff 100%);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+
+        body {
+            background: var(--bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* Cabeçalho */
+        .header { text-align: center; margin-bottom: 20px; width: 100%; max-width: 400px; }
+        .header h1 { color: var(--primary); font-size: 1.5rem; letter-spacing: 1px; }
+
+        /* Card de Status (Moedas e Nível) */
+        .status-card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            width: 100%;
+            max-width: 400px;
+            padding: 25px;
+            border-radius: 30px;
+            box-shadow: 0 10px 25px rgba(30, 64, 175, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .level-badge {
+            background: var(--primary);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .coins-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+
+        .coin-icon {
+            width: 35px;
+            height: 35px;
+            background: gold;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #b8860b;
+            border: 2px solid #b8860b;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .coins-amount { font-size: 1.8rem; font-weight: 800; color: #1e3a8a; }
+
+        /* Barra de Progresso */
+        .progress-label { font-size: 0.75rem; color: #64748b; margin-top: 10px; display: block; }
+        .progress-bg { width: 100%; height: 10px; background: #e2e8f0; border-radius: 10px; margin-top: 5px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #60a5fa); width: 0%; transition: 0.6s ease; }
+
+        /* Adicionar Metas */
+        .input-area { width: 100%; max-width: 400px; display: flex; gap: 8px; margin-bottom: 20px; }
+        input { flex: 1; padding: 15px; border-radius: 18px; border: 1px solid white; background: var(--glass); outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+        .add-btn { background: var(--primary); color: white; border: none; width: 50px; border-radius: 18px; font-size: 1.5rem; cursor: pointer; }
+
+        /* Lista de Metas */
+        .goals-list { width: 100%; max-width: 400px; }
+        .goal-item {
+            background: var(--glass);
+            margin-bottom: 12px;
+            padding: 18px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.7);
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .claim-btn {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .claim-btn:active { transform: scale(0.95); }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>GROWTH GOALS</h1>
+</div>
+
+<div class="status-card">
+    <div class="level-badge" id="level-display">Nível 1: Aspirante</div>
+    
+    <div class="coins-container">
+        <div class="coin-icon">L</div>
+        <span class="coins-amount" id="coin-count">0</span>
+        <span style="color: var(--primary); font-weight: bold;">LufiZ</span>
+    </div>
+
+    <div class="progress-bg">
+        <div class="progress-fill" id="xp-bar"></div>
+    </div>
+    <span class="progress-label" id="progress-text">Ganhe 50 LufiZ para subir de nível</span>
+</div>
+
+<div class="input-area">
+    <input type="text" id="goal-input" placeholder="Definir nova meta...">
+    <button class="add-btn" onclick="addGoal()">+</button>
+</div>
+
+<div class="goals-list" id="goals-list"></div>
+
+<script>
+    // Sistema de Dados do Growth Goals
+    let data = JSON.parse(localStorage.getItem('growth_goals_v1')) || {
+        lufiz: 0,
+        level: 1,
+        goals: []
+    };
+
+    const levels = [
+        { title: "Aspirante", target: 500 },
+        { title: "Estrategista", target: 1500 },
+        { title: "Guerreiro Focado", target: 3500 },
+        { title: "Mestre da Disciplina", target: 7000 },
+        { title: "Lenda Implacável", target: 15000 }
+    ];
+
+    function updateApp() {
+        // Encontrar nível atual baseado nas LufiZ acumuladas
+        let currentLevelIndex = 0;
+        for (let i = 0; i < levels.length; i++) {
+            if (data.lufiz >= (levels[i-1]?.target || 0)) {
+                currentLevelIndex = i;
+            }
+        }
+        
+        const currentLevel = levels[currentLevelIndex];
+        const prevTarget = levels[currentLevelIndex - 1]?.target || 0;
+        
+        // Atualizar Interface
+        document.getElementById('level-display').innerText = `Nível ${currentLevelIndex + 1}: ${currentLevel.title}`;
+        document.getElementById('coin-count').innerText = data.lufiz.toLocaleString();
+        
+        // Barra de progresso para o próximo nível
+        const progress = ((data.lufiz - prevTarget) / (currentLevel.target - prevTarget)) * 100;
+        document.getElementById('xp-bar').style.width = `${Math.min(progress, 100)}%`;
+        document.getElementById('progress-text').innerText = `Próximo nível em ${currentLevel.target} LufiZ`;
+
+        // Renderizar Metas
+        const list = document.getElementById('goals-list');
+        list.innerHTML = '';
+        data.goals.forEach((goal, i) => {
+            const div = document.createElement('div');
+            div.className = 'goal-item';
+            div.innerHTML = `
+                <span style="font-weight: 500; color: #1e293b;">${goal}</span>
+                <button class="claim-btn" onclick="completeGoal(${i})">+50 LufiZ</button>
+            `;
+            list.appendChild(div);
+        });
+
+        localStorage.setItem('growth_goals_v1', JSON.stringify(data));
+    }
+
+    function addGoal() {
+        const input = document.getElementById('goal-input');
+        if (!input.value.trim()) return;
+        data.goals.push(input.value.trim());
+        input.value = '';
+        updateApp();
+    }
+
+    function completeGoal(index) {
+        data.goals.splice(index, 1);
+        data.lufiz += 50;
+        updateApp();
+    }
+
+    window.onload = updateApp;
+</script>
+
+</body>
+</html>
