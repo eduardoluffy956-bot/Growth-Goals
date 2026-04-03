@@ -89,6 +89,11 @@
         .check-step { background: var(--primary); color: white; border: none; padding: 4px 8px; border-radius: 5px; font-size: 0.7rem; }
     </style>
 </head>
+    <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('sw.js');
+  }
+    </script>
 <body>
 
 <div class="top-bar"><h1>Growth Goals</h1></div>
