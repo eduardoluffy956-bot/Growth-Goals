@@ -3,206 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Growth Goals - Pro</title>
+    <title>Growth Goals Pro</title>
     <style>
         :root {
-            --primary: #1e40af; /* Azul Profundo */
-            --accent: #60a5fa;  /* Azul Brilhante */
-            --coin: #ffd700;    /* Ouro */
-            --glass: rgba(255, 255, 255, 0.95);
-            --bg: linear-gradient(135deg, #e0f2fe 0%, #c7d2fe 100%);
+            --primary: #1e40af;
+            --accent: #3b82f6;
+            --glass: rgba(255, 255, 255, 0.98);
+            --bg: #f8fafc;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: var(--bg); min-height: 100vh; padding-bottom: 90px; color: #1e293b; }
 
-        body {
-            background: var(--bg);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            color: #1e293b;
-            padding-bottom: 80px; /* Espaço para o menu */
-        }
+        /* HEADER */
+        .top-bar { padding: 20px; text-align: center; background: white; border-bottom: 1px solid #e2e8f0; }
+        .top-bar h1 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; color: var(--primary); }
 
-        /* BARRA DE NAVEGAÇÃO (BOTTOM) */
+        /* NAVEGAÇÃO */
         .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 70px;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-            border-top: 1px solid rgba(255,255,255,0.3);
-            z-index: 1000;
+            position: fixed; bottom: 0; left: 0; width: 100%; height: 75px;
+            background: white; display: flex; justify-content: space-around;
+            align-items: center; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 1000;
         }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #64748b;
-            text-decoration: none;
-            font-size: 0.75rem;
-            font-weight: 500;
-            cursor: pointer;
-        }
-
+        .nav-item { flex: 1; display: flex; flex-direction: column; align-items: center; color: #94a3b8; cursor: pointer; }
         .nav-item.active { color: var(--primary); }
+        .nav-item span { font-size: 1.5rem; }
+        .nav-item p { font-size: 0.7rem; font-weight: 600; }
 
-        .nav-icon {
-            font-size: 1.4rem;
-            margin-bottom: 4px;
-        }
+        /* PÁGINAS */
+        .page { display: none; padding: 20px; width: 100%; max-width: 450px; margin: 0 auto; }
+        .page.active { display: block; }
 
-        /* CONTAINER DE CONTEÚDO (ABAS) */
-        .page {
-            display: none;
-            padding: 25px 20px;
-            width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        .page.active { display: block; animation: fadeIn 0.3s ease; }
-
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* TÍTULO DA PÁGINA */
-        .page-header { text-align: center; margin-bottom: 25px; }
-        .page-header h1 { color: var(--primary); font-size: 1.4rem; text-transform: uppercase; letter-spacing: 2px; }
-
-        /* ESTILO DOS CARDS (GLASS) */
-        .card {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
-            padding: 25px;
-            border-radius: 25px;
-            box-shadow: 0 10px 25px rgba(30, 64, 175, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            margin-bottom: 20px;
-        }
-
-        /* DASHBOARD - MOEDAS E NÍVEL */
-        .dashboard-status { text-align: center; }
-        .coins-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 15px 0; }
-        .coin-icon { width: 40px; height: 40px; background: gold; border-radius: 50%; border: 2px solid #b8860b; color: #b8860b; font-weight: bold; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-        .coins-amount { font-size: 2.2rem; font-weight: 800; color: #1e3a8a; }
-
-        .progress-label { font-size: 0.8rem; color: #64748b; margin-top: 10px; display: block; }
-        .progress-bg { width: 100%; height: 12px; background: #e2e8f0; border-radius: 10px; margin-top: 5px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #60a5fa); width: 0%; transition: 0.6s ease; }
-
-        /* ABA DESCRIÇÃO - INFO */
-        .info-section { margin-bottom: 15px; }
-        .info-title { font-weight: bold; color: var(--primary); margin-bottom: 5px; font-size: 1.1rem; }
-        .info-text { color: #475569; font-size: 0.9rem; line-height: 1.5; }
-
-        /* ÁREA DE METAS (SIMPLES AINDA - VAMOS EVOLUIR A SEGUIR) */
-        .goals-placeholder { text-align: center; color: #64748b; padding: 40px 0; }
+        /* CARD DASHBOARD */
+        .card { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 15px; text-align: center; }
+        .coins-val { font-size: 2.5rem; font-weight: 800; color: var(--primary); margin: 10px 0; }
         
+        /* FORMULÁRIO DE METAS (MODAL) */
+        #goal-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); display: none; align-items: center; justify-content: center; z-index: 2000;
+        }
+        .modal-content { background: white; padding: 25px; border-radius: 25px; width: 90%; max-width: 380px; }
+        .modal-content h3 { margin-bottom: 20px; color: var(--primary); }
+        
+        .input-group { display: flex; flex-direction: column; gap: 12px; text-align: left; }
+        label { font-size: 0.8rem; font-weight: 600; color: #64748b; margin-bottom: -8px; }
+        input, select { padding: 14px; border-radius: 12px; border: 1px solid #e2e8f0; background: #f8fafc; font-size: 1rem; }
+
+        /* BOTÕES */
+        .btn-main { background: var(--primary); color: white; padding: 15px; border-radius: 12px; border: none; font-weight: bold; width: 100%; margin-top: 10px; }
+        .fab { 
+            position: fixed; bottom: 90px; right: 20px; width: 60px; height: 60px; 
+            background: var(--primary); color: white; border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; font-size: 2rem;
+            box-shadow: 0 10px 20px rgba(30, 64, 175, 0.3); z-index: 999;
+        }
+
+        /* LISTA DE METAS */
+        .goal-card {
+            background: white; padding: 20px; border-radius: 18px; margin-bottom: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            border: 1px solid #e2e8f0;
+        }
+        .goal-info h4 { font-size: 1rem; color: #1e293b; }
+        .goal-info p { font-size: 0.75rem; color: #64748b; margin-top: 4px; }
+        .btn-check { background: #10b981; color: white; border: none; padding: 10px 15px; border-radius: 10px; font-weight: bold; }
     </style>
 </head>
 <body>
 
+<div class="top-bar"><h1>Growth Goals</h1></div>
+
+<div id="fab-btn" class="fab" style="display: none;" onclick="showModal()">+</div>
+
+<div id="goal-modal">
+    <div class="modal-content">
+        <h3>Nova Meta Estratégica</h3>
+        <div class="input-group">
+            <label>O QUE VAIS CONQUISTAR?</label>
+            <input type="text" id="g-title" placeholder="Ex: Estudar Marketing">
+            
+            <label>DATA DE INÍCIO</label>
+            <input type="date" id="g-date">
+            
+            <label>HORA DEFINIDA</label>
+            <input type="time" id="g-time">
+            
+            <label>FREQUÊNCIA</label>
+            <select id="g-freq">
+                <option value="Diária">Diária</option>
+                <option value="Semanal">Semanal</option>
+                <option value="Mensal">Mensal</option>
+                <option value="Anual">Anual</option>
+            </select>
+            
+            <button class="btn-main" onclick="saveGoal()">CONFIRMAR META</button>
+            <button style="background:none; border:none; color:#64748b; margin-top:10px;" onclick="hideModal()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
 <nav class="bottom-nav">
-    <div class="nav-item active" onclick="openPage('dashboard', this)">
-        <span class="nav-icon">📊</span>
-        Dashboard
-    </div>
-    <div class="nav-item" onclick="openPage('goals', this)">
-        <span class="nav-icon">🎯</span>
-        Metas
-    </div>
-    <div class="nav-item" onclick="openPage('info', this)">
-        <span class="nav-icon">📖</span>
-        Descrição
-    </div>
+    <div class="nav-item active" onclick="openPage('dash', this)"><span>📊</span><p>Dash</p></div>
+    <div class="nav-item" onclick="openPage('goals', this)"><span>🎯</span><p>Metas</p></div>
+    <div class="nav-item" onclick="openPage('info', this)"><span>📖</span><p>Info</p></div>
 </nav>
 
-<div id="dashboard" class="page active">
-    <div class="page-header"><h1>Dashboard</h1></div>
-    <div class="card dashboard-status">
-        <span style="font-size: 0.85rem; font-weight: 600; color: #64748b;">Nível Atual</span>
-        <div class="coins-row">
-            <div class="coin-icon">L</div>
-            <span class="coins-amount" id="coin-count">0</span>
-            <span style="color: var(--primary); font-weight: 700;">LufiZ</span>
-        </div>
-        <div class="progress-bg">
-            <div class="progress-fill" id="xp-bar"></div>
-        </div>
-        <span class="progress-label" id="progress-text">Aspirante • Próximo nível em 500 LufiZ</span>
+<div id="dash" class="page active">
+    <div class="card">
+        <p>Saldo de LufiZ</p>
+        <div class="coins-val" id="coin-txt">0</div>
+        <p id="rank-txt" style="font-weight:bold; color:var(--primary)">Nível 1: Aspirante</p>
     </div>
 </div>
 
 <div id="goals" class="page">
-    <div class="page-header"><h1>Minhas Metas</h1></div>
-    <div class="card goals-placeholder">
-        <h3>Próxima Paragem:</h3>
-        <p style="margin-top: 10px;">Aqui vamos construir o teu sistema composto de metas (Diárias, Semanais, etc.) com data e hora. Aguarda a V3.0!</p>
+    <div id="list-container">
+        <p style="text-align:center; color:#94a3b8; margin-top:50px;">Nenhuma meta definida.<br>Clica no + para começar.</p>
     </div>
 </div>
 
 <div id="info" class="page">
-    <div class="page-header"><h1>Descrição</h1></div>
-    <div class="card">
-        <div class="info-section">
-            <div class="info-title">A Filosofia Growth Goals</div>
-            <p class="info-text">Este não é um simples gerenciador de tarefas. É a tua ferramenta estratégica de auto-domínio e alta performance.</p>
-        </div>
-        <div class="info-section">
-            <div class="info-title">Como Funciona</div>
-            <p class="info-text">Define metas estratégicas (Diárias, Semanais, Mensais ou Anuais). Ao concluí-las, és recompensado com **LufiZ**, as moedas digitais do Growth Goals. Acumula LufiZ para subir de nível e desbloquear patentes de Elite.</p>
-        </div>
-        <div class="info-section">
-            <div class="info-title">Patentes de Elite</div>
-            <ul class="info-text" style="list-style: inside; margin-left: 5px;">
-                <li>Nível 1: Aspirante</li>
-                <li>Nível 2: Estrategista</li>
-                <li>Nível 3: Guerreiro Focado</li>
-                <li>Nível 4: Mestre da Disciplina</li>
-                <li>Nível 5: Lenda Implacável</li>
-            </ul>
-        </div>
+    <div class="card" style="text-align:left">
+        <h4 style="margin-bottom:10px">Guia de Elite</h4>
+        <p style="font-size:0.9rem; color:#475569">As metas têm data e hora para garantir a tua disciplina. Concluir uma meta rende **100 LufiZ**.</p>
     </div>
 </div>
 
 <script>
-    // Sistema de Navegação
-    function openPage(pageId, navEl) {
-        // Esconder todas as páginas
-        const pages = document.querySelectorAll('.page');
-        pages.forEach(p => p.classList.remove('active'));
+    let state = JSON.parse(localStorage.getItem('gg_v3_1')) || { lufiz: 0, goals: [] };
 
-        // Desativar todos os itens do menu
-        const navItems = document.querySelectorAll('.nav-item');
-        navItems.forEach(i => i.classList.remove('active'));
-
-        // Mostrar a página escolhida e ativar o menu
-        document.getElementById(pageId).classList.add('active');
-        navEl.classList.add('active');
+    function openPage(id, el) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        el.classList.add('active');
+        
+        // Só mostra o botão + na aba de Metas
+        document.getElementById('fab-btn').style.display = (id === 'goals') ? 'flex' : 'none';
     }
 
-    // Carregar dados (LufiZ e Nível - Usando LocalStorage)
-    let data = JSON.parse(localStorage.getItem('growth_goals_v2')) || { lufiz: 0, level: 1 };
+    function showModal() { document.getElementById('goal-modal').style.display = 'flex'; }
+    function hideModal() { document.getElementById('goal-modal').style.display = 'none'; }
 
-    function updateApp() {
-        document.getElementById('coin-count').innerText = data.lufiz.toLocaleString();
+    function saveGoal() {
+        const title = document.getElementById('g-title').value;
+        const date = document.getElementById('g-date').value;
+        const time = document.getElementById('g-time').value;
+        const freq = document.getElementById('g-freq').value;
+
+        if(!title || !date || !time) return alert("Preenche todos os campos (Título, Data e Hora)!");
+
+        state.goals.push({ title, date, time, freq });
+        localStorage.setItem('gg_v3_1', JSON.stringify(state));
         
-        // Sistema básico de progresso para a dashboard (Vou polir o nível a seguir)
-        let target = 500;
-        let progressPercent = (data.lufiz / target) * 100;
-        document.getElementById('xp-bar').style.width = `${Math.min(progressPercent, 100)}%`;
-        
-        localStorage.setItem('growth_goals_v2', JSON.stringify(data));
+        document.getElementById('g-title').value = '';
+        hideModal();
+        renderGoals();
     }
 
-    window.onload = updateApp;
+    function renderGoals() {
+        const cont = document.getElementById('list-container');
+        if(state.goals.length === 0) {
+            cont.innerHTML = '<p style="text-align:center; color:#94a3b8; margin-top:50px;">Nenhuma meta definida.<br>Clica no + para começar.</p>';
+            return;
+        }
+        cont.innerHTML = '';
+        state.goals.forEach((g, i) => {
+            cont.innerHTML += `
+                <div class="goal-card">
+                    <div class="goal-info">
+                        <h4>${g.title}</h4>
+                        <p>📅 ${g.date} | ⏰ ${g.time} | 🏆 ${g.freq}</p>
+                    </div>
+                    <button class="btn-check" onclick="finishGoal(${i})">OK</button>
+                </div>
+            `;
+        });
+    }
+
+    function finishGoal(idx) {
+        state.goals.splice(idx, 1);
+        state.lufiz += 100;
+        localStorage.setItem('gg_v3_1', JSON.stringify(state));
+        renderGoals();
+        updateDash();
+    }
+
+    function updateDash() {
+        document.getElementById('coin-txt').innerText = state.lufiz;
+        const lvls = ["Aspirante", "Estrategista", "Guerreiro", "Mestre", "Lenda"];
+        let idx = Math.floor(state.lufiz / 500);
+        document.getElementById('rank-txt').innerText = `Nível ${idx+1}: ${lvls[idx] || "Elite"}`;
+    }
+
+    window.onload = () => { renderGoals(); updateDash(); };
 </script>
 
 </body>
