@@ -3,213 +3,203 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Growth Goals - Domine a Sua Jornada</title>
+    <title>Growth Goals - Pro</title>
     <style>
         :root {
-            --primary: #1e40af;
-            --accent: #60a5fa;
-            --coin-gold: #ffd700;
-            --glass: rgba(255, 255, 255, 0.9);
-            --bg: linear-gradient(180deg, #f0f7ff 0%, #c9dfff 100%);
+            --primary: #1e40af; /* Azul Profundo */
+            --accent: #60a5fa;  /* Azul Brilhante */
+            --coin: #ffd700;    /* Ouro */
+            --glass: rgba(255, 255, 255, 0.95);
+            --bg: linear-gradient(135deg, #e0f2fe 0%, #c7d2fe 100%);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Roboto, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
 
         body {
             background: var(--bg);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            padding: 20px;
+            color: #1e293b;
+            padding-bottom: 80px; /* Espaço para o menu */
         }
 
-        /* Cabeçalho */
-        .header { text-align: center; margin-bottom: 20px; width: 100%; max-width: 400px; }
-        .header h1 { color: var(--primary); font-size: 1.5rem; letter-spacing: 1px; }
-
-        /* Card de Status (Moedas e Nível) */
-        .status-card {
-            background: var(--glass);
-            backdrop-filter: blur(15px);
+        /* BARRA DE NAVEGAÇÃO (BOTTOM) */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
             width: 100%;
-            max-width: 400px;
-            padding: 25px;
-            border-radius: 30px;
-            box-shadow: 0 10px 25px rgba(30, 64, 175, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            text-align: center;
-            margin-bottom: 25px;
-        }
-
-        .level-badge {
-            background: var(--primary);
-            color: white;
-            padding: 6px 16px;
-            border-radius: 50px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-bottom: 15px;
-            display: inline-block;
-        }
-
-        .coins-container {
+            height: 70px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
             display: flex;
+            justify-content: space-around;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 15px;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            border-top: 1px solid rgba(255,255,255,0.3);
+            z-index: 1000;
         }
 
-        .coin-icon {
-            width: 35px;
-            height: 35px;
-            background: gold;
-            border-radius: 50%;
+        .nav-item {
             display: flex;
+            flex-direction: column;
             align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: #b8860b;
-            border: 2px solid #b8860b;
-            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-        }
-
-        .coins-amount { font-size: 1.8rem; font-weight: 800; color: #1e3a8a; }
-
-        /* Barra de Progresso */
-        .progress-label { font-size: 0.75rem; color: #64748b; margin-top: 10px; display: block; }
-        .progress-bg { width: 100%; height: 10px; background: #e2e8f0; border-radius: 10px; margin-top: 5px; overflow: hidden; }
-        .progress-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #60a5fa); width: 0%; transition: 0.6s ease; }
-
-        /* Adicionar Metas */
-        .input-area { width: 100%; max-width: 400px; display: flex; gap: 8px; margin-bottom: 20px; }
-        input { flex: 1; padding: 15px; border-radius: 18px; border: 1px solid white; background: var(--glass); outline: none; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
-        .add-btn { background: var(--primary); color: white; border: none; width: 50px; border-radius: 18px; font-size: 1.5rem; cursor: pointer; }
-
-        /* Lista de Metas */
-        .goals-list { width: 100%; max-width: 400px; }
-        .goal-item {
-            background: var(--glass);
-            margin-bottom: 12px;
-            padding: 18px;
-            border-radius: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border: 1px solid rgba(255,255,255,0.7);
-            animation: slideUp 0.3s ease;
-        }
-
-        @keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        .claim-btn {
-            background: #10b981;
-            color: white;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 12px;
+            color: #64748b;
+            text-decoration: none;
             font-size: 0.75rem;
-            font-weight: bold;
+            font-weight: 500;
             cursor: pointer;
         }
 
-        .claim-btn:active { transform: scale(0.95); }
+        .nav-item.active { color: var(--primary); }
+
+        .nav-icon {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
+        }
+
+        /* CONTAINER DE CONTEÚDO (ABAS) */
+        .page {
+            display: none;
+            padding: 25px 20px;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .page.active { display: block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* TÍTULO DA PÁGINA */
+        .page-header { text-align: center; margin-bottom: 25px; }
+        .page-header h1 { color: var(--primary); font-size: 1.4rem; text-transform: uppercase; letter-spacing: 2px; }
+
+        /* ESTILO DOS CARDS (GLASS) */
+        .card {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            padding: 25px;
+            border-radius: 25px;
+            box-shadow: 0 10px 25px rgba(30, 64, 175, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        /* DASHBOARD - MOEDAS E NÍVEL */
+        .dashboard-status { text-align: center; }
+        .coins-row { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 15px 0; }
+        .coin-icon { width: 40px; height: 40px; background: gold; border-radius: 50%; border: 2px solid #b8860b; color: #b8860b; font-weight: bold; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .coins-amount { font-size: 2.2rem; font-weight: 800; color: #1e3a8a; }
+
+        .progress-label { font-size: 0.8rem; color: #64748b; margin-top: 10px; display: block; }
+        .progress-bg { width: 100%; height: 12px; background: #e2e8f0; border-radius: 10px; margin-top: 5px; overflow: hidden; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #3b82f6, #60a5fa); width: 0%; transition: 0.6s ease; }
+
+        /* ABA DESCRIÇÃO - INFO */
+        .info-section { margin-bottom: 15px; }
+        .info-title { font-weight: bold; color: var(--primary); margin-bottom: 5px; font-size: 1.1rem; }
+        .info-text { color: #475569; font-size: 0.9rem; line-height: 1.5; }
+
+        /* ÁREA DE METAS (SIMPLES AINDA - VAMOS EVOLUIR A SEGUIR) */
+        .goals-placeholder { text-align: center; color: #64748b; padding: 40px 0; }
+        
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>GROWTH GOALS</h1>
-</div>
-
-<div class="status-card">
-    <div class="level-badge" id="level-display">Nível 1: Aspirante</div>
-    
-    <div class="coins-container">
-        <div class="coin-icon">L</div>
-        <span class="coins-amount" id="coin-count">0</span>
-        <span style="color: var(--primary); font-weight: bold;">LufiZ</span>
+<nav class="bottom-nav">
+    <div class="nav-item active" onclick="openPage('dashboard', this)">
+        <span class="nav-icon">📊</span>
+        Dashboard
     </div>
-
-    <div class="progress-bg">
-        <div class="progress-fill" id="xp-bar"></div>
+    <div class="nav-item" onclick="openPage('goals', this)">
+        <span class="nav-icon">🎯</span>
+        Metas
     </div>
-    <span class="progress-label" id="progress-text">Ganhe 50 LufiZ para subir de nível</span>
+    <div class="nav-item" onclick="openPage('info', this)">
+        <span class="nav-icon">📖</span>
+        Descrição
+    </div>
+</nav>
+
+<div id="dashboard" class="page active">
+    <div class="page-header"><h1>Dashboard</h1></div>
+    <div class="card dashboard-status">
+        <span style="font-size: 0.85rem; font-weight: 600; color: #64748b;">Nível Atual</span>
+        <div class="coins-row">
+            <div class="coin-icon">L</div>
+            <span class="coins-amount" id="coin-count">0</span>
+            <span style="color: var(--primary); font-weight: 700;">LufiZ</span>
+        </div>
+        <div class="progress-bg">
+            <div class="progress-fill" id="xp-bar"></div>
+        </div>
+        <span class="progress-label" id="progress-text">Aspirante • Próximo nível em 500 LufiZ</span>
+    </div>
 </div>
 
-<div class="input-area">
-    <input type="text" id="goal-input" placeholder="Definir nova meta...">
-    <button class="add-btn" onclick="addGoal()">+</button>
+<div id="goals" class="page">
+    <div class="page-header"><h1>Minhas Metas</h1></div>
+    <div class="card goals-placeholder">
+        <h3>Próxima Paragem:</h3>
+        <p style="margin-top: 10px;">Aqui vamos construir o teu sistema composto de metas (Diárias, Semanais, etc.) com data e hora. Aguarda a V3.0!</p>
+    </div>
 </div>
 
-<div class="goals-list" id="goals-list"></div>
+<div id="info" class="page">
+    <div class="page-header"><h1>Descrição</h1></div>
+    <div class="card">
+        <div class="info-section">
+            <div class="info-title">A Filosofia Growth Goals</div>
+            <p class="info-text">Este não é um simples gerenciador de tarefas. É a tua ferramenta estratégica de auto-domínio e alta performance.</p>
+        </div>
+        <div class="info-section">
+            <div class="info-title">Como Funciona</div>
+            <p class="info-text">Define metas estratégicas (Diárias, Semanais, Mensais ou Anuais). Ao concluí-las, és recompensado com **LufiZ**, as moedas digitais do Growth Goals. Acumula LufiZ para subir de nível e desbloquear patentes de Elite.</p>
+        </div>
+        <div class="info-section">
+            <div class="info-title">Patentes de Elite</div>
+            <ul class="info-text" style="list-style: inside; margin-left: 5px;">
+                <li>Nível 1: Aspirante</li>
+                <li>Nível 2: Estrategista</li>
+                <li>Nível 3: Guerreiro Focado</li>
+                <li>Nível 4: Mestre da Disciplina</li>
+                <li>Nível 5: Lenda Implacável</li>
+            </ul>
+        </div>
+    </div>
+</div>
 
 <script>
-    // Sistema de Dados do Growth Goals
-    let data = JSON.parse(localStorage.getItem('growth_goals_v1')) || {
-        lufiz: 0,
-        level: 1,
-        goals: []
-    };
+    // Sistema de Navegação
+    function openPage(pageId, navEl) {
+        // Esconder todas as páginas
+        const pages = document.querySelectorAll('.page');
+        pages.forEach(p => p.classList.remove('active'));
 
-    const levels = [
-        { title: "Aspirante", target: 500 },
-        { title: "Estrategista", target: 1500 },
-        { title: "Guerreiro Focado", target: 3500 },
-        { title: "Mestre da Disciplina", target: 7000 },
-        { title: "Lenda Implacável", target: 15000 }
-    ];
+        // Desativar todos os itens do menu
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach(i => i.classList.remove('active'));
+
+        // Mostrar a página escolhida e ativar o menu
+        document.getElementById(pageId).classList.add('active');
+        navEl.classList.add('active');
+    }
+
+    // Carregar dados (LufiZ e Nível - Usando LocalStorage)
+    let data = JSON.parse(localStorage.getItem('growth_goals_v2')) || { lufiz: 0, level: 1 };
 
     function updateApp() {
-        // Encontrar nível atual baseado nas LufiZ acumuladas
-        let currentLevelIndex = 0;
-        for (let i = 0; i < levels.length; i++) {
-            if (data.lufiz >= (levels[i-1]?.target || 0)) {
-                currentLevelIndex = i;
-            }
-        }
-        
-        const currentLevel = levels[currentLevelIndex];
-        const prevTarget = levels[currentLevelIndex - 1]?.target || 0;
-        
-        // Atualizar Interface
-        document.getElementById('level-display').innerText = `Nível ${currentLevelIndex + 1}: ${currentLevel.title}`;
         document.getElementById('coin-count').innerText = data.lufiz.toLocaleString();
         
-        // Barra de progresso para o próximo nível
-        const progress = ((data.lufiz - prevTarget) / (currentLevel.target - prevTarget)) * 100;
-        document.getElementById('xp-bar').style.width = `${Math.min(progress, 100)}%`;
-        document.getElementById('progress-text').innerText = `Próximo nível em ${currentLevel.target} LufiZ`;
-
-        // Renderizar Metas
-        const list = document.getElementById('goals-list');
-        list.innerHTML = '';
-        data.goals.forEach((goal, i) => {
-            const div = document.createElement('div');
-            div.className = 'goal-item';
-            div.innerHTML = `
-                <span style="font-weight: 500; color: #1e293b;">${goal}</span>
-                <button class="claim-btn" onclick="completeGoal(${i})">+50 LufiZ</button>
-            `;
-            list.appendChild(div);
-        });
-
-        localStorage.setItem('growth_goals_v1', JSON.stringify(data));
-    }
-
-    function addGoal() {
-        const input = document.getElementById('goal-input');
-        if (!input.value.trim()) return;
-        data.goals.push(input.value.trim());
-        input.value = '';
-        updateApp();
-    }
-
-    function completeGoal(index) {
-        data.goals.splice(index, 1);
-        data.lufiz += 50;
-        updateApp();
+        // Sistema básico de progresso para a dashboard (Vou polir o nível a seguir)
+        let target = 500;
+        let progressPercent = (data.lufiz / target) * 100;
+        document.getElementById('xp-bar').style.width = `${Math.min(progressPercent, 100)}%`;
+        
+        localStorage.setItem('growth_goals_v2', JSON.stringify(data));
     }
 
     window.onload = updateApp;
